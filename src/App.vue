@@ -1,5 +1,8 @@
 <template>
   <div id="app">
+  <div class="logo-block"> 
+     <img src="./assets/logo.png">
+  </div>
     <SignUp/>
   </div>
 </template>
@@ -10,21 +13,28 @@ import SignUp from './components/SignUp'
 export default {
   name: 'App',
   components: {
+    SignUp,
     SignUp
   }
 }
 </script>
 
 <style>
+.logo-block img {
+  width: 160px;
+  height: 140px;
+}
 html{
-  background-color: #c2db61;
+  font-family:sans-serif;
+  color:white;
+  background-color: #b3b3ae;
+  height: 100%;
 }
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  margin-top: 30px;
 }
 </style>
