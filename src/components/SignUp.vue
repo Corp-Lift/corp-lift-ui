@@ -1,5 +1,8 @@
 <template>
   <div class="signup-block">
+    <div class="logo-block"> 
+      <img src="../assets/logo.png">
+    </div>
     <p class="title">SIGN UP</p>
     <div class="row">
         <div class="block">
@@ -58,7 +61,7 @@
   </div>
 </template>
 <script>
-import Service from '../API/Service.js'
+import Service from '../GoogleAPI/Service.js'
 export default {
     data() {
         return {
@@ -89,7 +92,7 @@ export default {
             this.showError = false;
         },
         signUp() {
-            let password = document.getElementById('password');
+            let password = document.getElementById('password').value;
             if(this.validation()) {
                 // AJAX call - user data
                 let reqObj = {
@@ -159,17 +162,7 @@ export default {
                 padding: 0 5px;
             }
             input {
-                width: 200px;
-                height: 15px;
-                font-size: 17px;
-                border: none;
-                padding: 10px;
                 margin-top: 3px;
-                color: white;
-                background-color: #3A3A3A;
-            }
-            input::placeholder {
-                color: #b5b3b3;
             }
         }
     }
