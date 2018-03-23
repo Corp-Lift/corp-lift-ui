@@ -1,40 +1,22 @@
 <template>
   <div id="app">
-    <SignUp v-if="showSignUp"/>
-    <SignIn  v-if="showSignIn"/>
-    <PageTwo v-if="showPageTwo"/>
+     <router-view></router-view>
   </div>
 </template>
 
 <script>
-import SignUp from './components/SignUp'
-import SignIn from './components/SignIn'
-import PageTwo from './components/PageTwo'
+import GlobalStorage from './common/GlobalStorage'
 import MapObj from './GoogleAPI/MapObj'
 
 export default {
   name: 'App',
-  components: {
-    SignUp,
-    SignIn,
-    PageTwo
-  },
-  data() {
-    return {
-      showSignUp : false,
-      showSignIn: true,
-      showPageTwo: false
-    }
-  },
-  methods: {
-  },
   created() {
-    MapObj.init();
+    GlobalStorage.init();
   }
 }
 </script>
 
-<style>
+<style lang='scss'>
 .logo-block img {
   width: 160px;
   height: 140px;
@@ -44,13 +26,15 @@ html {
   color:black;
   background-color: #b3b3ae;
   height: 100%;
-}
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  margin-top: 30px;
+  body {
+    margin: 0;
+  }
+  #app {
+    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+  }
 }
 input[type="text"], input[type="number"], input[type="password"]{
   width: 200px;

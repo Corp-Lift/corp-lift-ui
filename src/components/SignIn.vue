@@ -27,7 +27,8 @@
   </div>
 </template>
 <script>
-import Service from '../GoogleAPI/Service.js'
+import Service from '../GoogleAPI/Service.js';
+import WebStorage from '../common/WebStorage.js';
 export default {
     data() {
         return {
@@ -55,22 +56,20 @@ export default {
             this.showError = false;
         },
         signIn() {
-            let password = document.getElementById('password').value;
+            let reqObj = {},password = document.getElementById('password').value;
             if(this.credentials && password) {
                 if(this.validatePattern(this.credentials)) {
                     // AJAX call - user data
                     let reqObj = {
                         credentials : this.credentials,
-                        mobile: this.mobileNumber,
                         password: password
                     }
-                    Service.userSignIn(reqObj);
+                    WebStorage.setCollection('USER_SIGNIN', Service.userSignIn(reqObj));
+                    this.$router.push('pageTwo');
                 } else {
-                    debugger;
                     this.showError = true;
                 }
             } else {
-                debugger;
                 this.showError = true; 
             }
         },

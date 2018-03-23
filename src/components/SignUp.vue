@@ -139,6 +139,9 @@ export default {
 <style lang="scss">
 .signup-block {
     margin-top:40px;
+    .logo-block {
+        margin-top: 30px;
+    }
     .title {
         font-size: 30px;
         font-weight: bold;

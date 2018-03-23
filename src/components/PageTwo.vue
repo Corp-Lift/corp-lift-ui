@@ -1,6 +1,11 @@
 <template>
   <div id="part2">
-    <p class="choice">Tell us your choice</p>
+    <div class="topbar">
+      <div class="profile">
+        {{userData.username}}
+      </div>
+    </div>
+    <p class="choice title">Tell us your choice</p>
     <div class="category">
       <div :class={bgColor:riderView}>
         <label for="rider">Rider</label>
@@ -13,14 +18,24 @@
     </div>
     <div id="rider-view" v-if="riderView">
       <div class="block">
-        <p>Vehicle type</p>
+        <p class="title">Vehicle type</p>
         <div>
             <input type="radio" name="vehicle" value="two-wheeler" checked> Two-wheeler
             <input type="radio" name="vehicle" value="four-wheeler"> Four-wheeler
         </div>
       </div>
       <div class="block">
-        <input type="text" v-model="destination" placeholder="Destination">
+        <p class="title">Destination Address</p>
+        <div>
+          <input type="text" v-model="destination" placeholder="Destination">
+        </div>
+      </div>
+      <div class="block">
+        <p class="title">Preferences</p>
+        <div>
+          <input type="radio" name="rider-preference-gender" v-model="RiderPreferenceGender" value="male" checked> Male
+          <input type="radio" name="rider-preference-gender" v-model="RiderPreferenceGender" value="female"> Female
+        </div>
       </div>
       <div class="block">
           <button id="start-ride" @click="startRide()">Start Ride</button>
@@ -28,6 +43,13 @@
       <div id="rider-map"></div>
     </div>
     <div id="pillion-view" v-if="pillionView">
+      <div class="block">
+        <p class="title">Preferences</p>
+        <div>
+          <input type="radio" name="pillion-preference-gender" v-model="PillionPreferenceGender" value="male" checked> Male
+          <input type="radio" name="pillion-preference-gender" v-model="PillionPreferenceGender" value="female"> Female
+        </div>
+      </div>
       <div class="block">
           <button id="search-rider" @click="searchRiders()">Search for riders</button>
       </div>
@@ -37,6 +59,10 @@
 </template>
 <script>
 import MapObj from '../GoogleAPI/MapObj';
+import WebStorage from '../common/WebStorage.js';
+import { publishEvent, subscribeEvent } from '../common/Observer.js';
+import Service from '../GoogleAPI/Service';
+import GlobalStorage from '../common/GlobalStorage'
 export default {
   data() {
     return {
@@ -44,7 +70,10 @@ export default {
       pillionView: false,
       destination: '',
       choice: 'rider',
-      switchView: false
+      switchView: false,
+      RiderPreferenceGender : 'male',
+      PillionPreferenceGender : 'male',
+      userData : {}
     }
   },
   methods: {
@@ -70,19 +99,36 @@ export default {
       }
     },
     searchRiders() {
+      GlobalStorage.setCollection('AVAILABLE_RIDERS', Service.getAvailableRiders())
       MapObj.openMap('pillion', this.destination);
     }
+  },
+  mounted() {
+    this.userData = WebStorage.getCollection('USER_SIGNIN')
   }
 }
 </script>
 <style lang="scss">
   #part2 {
     text-align: left;
+    .topbar {
+      width: 100%;
+      height: 30px;
+      background-color: #3A3A3A;
+      .profile {
+        padding: 5px 10px;
+        background-color: white;
+        float: right;
+      }
+    }
     .choice {
       margin-left: 35px;
     }
+    .title {
+      font-weight: 500;
+    }
     .block {
-      margin: 35px;
+      margin: 0 35px;
     }
   }
   button {
@@ -112,7 +158,7 @@ export default {
       }
     }
   }
-  #rider-view {
+  #rider-view, #pillion-view {
     .block {
       div {
         margin: 15px 25px;
@@ -121,7 +167,8 @@ export default {
   }
   #rider-map, #pillion-map {
     width: 100%;
-    height: 280px;
+    height: 300px;
+    margin-top: 15px;
   }
   .bgColor {
     background-color: white;
