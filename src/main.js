@@ -3,6 +3,7 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import { registerApp } from './common/Observer';
 
 Vue.config.productionTip = false;
 
@@ -13,3 +14,5 @@ const CorpLift = new Vue({
   components: { App },
   template: '<App/>'
 });
+
+registerApp(CorpLift);

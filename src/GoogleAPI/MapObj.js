@@ -3,18 +3,18 @@ import GlobalStorage from '../common/GlobalStorage'
 
 export default {
     openMap(mapSource, destination) {
-        GlobalStorage.mapContainer = new google.maps.Map(document.getElementById(mapSource+'-map'), {
+        GlobalStorage[mapSource+'MapContainer'] = new google.maps.Map(document.getElementById(mapSource+'-map'), {
             zoom: 14
         });
-        GlobalStorage.mapContainer.setCenter(GlobalStorage.mapObj.position);
-        this.getMoreInfo();
+        GlobalStorage[mapSource+'MapContainer'].setCenter(GlobalStorage.mapObj.position);
+        this.getMoreInfo(mapSource);
         if(mapSource === 'rider') {
             this.riderTrip(destination);
         } else if(mapSource === 'pillion') {
             this.searchForRiders();
         }
     },
-    getMoreInfo() {
+    getMoreInfo(mapSource) {
         Service.getMoreInfo({'location': GlobalStorage.mapObj.position})
         .then(response => {
             let icon = 'https://chart.googleapis.com/chart?chst=d_map_pin_letter&chld=O|83d0d8|000000';
@@ -22,7 +22,7 @@ export default {
                 let marker = new google.maps.Marker({
                     position: GlobalStorage.mapObj.position,
                     icon:icon,
-                    map: GlobalStorage.mapContainer
+                    map: GlobalStorage[mapSource+'MapContainer']
                 });
                 GlobalStorage.userLocationData.country = response[7].formatted_address;
                 GlobalStorage.userLocationData.state = response[6].formatted_address;
@@ -46,9 +46,8 @@ export default {
             region: 'IN'
         }, function(response, status) {
             if (status === 'OK') {
-                console.log('DIRECTION SERVICE');
                 GlobalStorage.mapObj.directionsDisplay.setDirections(response);
-                GlobalStorage.mapObj.directionsDisplay.setMap(GlobalStorage.mapContainer);
+                GlobalStorage.mapObj.directionsDisplay.setMap(GlobalStorage.riderMapContainer);
             } else {
                 window.alert('Directions request failed due to ' + status);
             }
@@ -73,10 +72,9 @@ export default {
             let destinationList = response.destinationAddresses;
             Service.geocoderFn(destinationList).then(function(results) {
                 for(let i=0;i< results.length;i++) {
-                    GlobalStorage.mapContainer.fitBounds(GlobalStorage.mapObj.bounds.extend(results[i][0].geometry.location));
-                    console.log('PLACE ORDER LIST', results[i][0].formatted_address);
+                    GlobalStorage.pillionMapContainer.fitBounds(GlobalStorage.mapObj.bounds.extend(results[i][0].geometry.location));
                     let marker = new google.maps.Marker({
-                        map: GlobalStorage.mapContainer,
+                        map: GlobalStorage.pillionMapContainer,
                         position: results[i][0].geometry.location,
                         icon: destinationIcon,
                         placeId :results[i][0].place_id,

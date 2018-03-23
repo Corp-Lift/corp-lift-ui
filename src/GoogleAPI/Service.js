@@ -1,5 +1,6 @@
 import ResponseData from '../MockJSON/MockData.js';
-import GlobalStorage from '../common/GlobalStorage'
+import GlobalStorage from '../common/GlobalStorage';
+import ClientSocket from '../common/ClientSocket'
 export default {
     userSignUp(data) {
         console.log('Sign Up API call', data)
@@ -55,7 +56,6 @@ export default {
             promises.push(new Promise(function(resolve, reject) {
                 GlobalStorage.mapObj.geocoder.geocode({'address': destinationList[j]},
                 function(response, status) {
-                    console.log('STATUSS', status);
                     if(status == 'OK') {
                         resolve(response);
                     } else if(status == 'OVER_QUERY_LIMIT'){
@@ -71,6 +71,7 @@ export default {
     },
     sendRequest(data, place) {
         console.log('send req', data);
+        ClientSocket.sendRequestToRider(data);
     },
     getAvailableRiders() {
         return ResponseData.riderData;

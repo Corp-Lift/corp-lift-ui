@@ -5,7 +5,7 @@ export default {
         return this.GlobalObject[itemName];
     },
     set(itemName, value) {
-        this.GlobalObject.itemName = value;
+        this.GlobalObject[itemName] = value;
     },
     getCollection(itemName) {
         let data = this.GlobalObject[itemName];

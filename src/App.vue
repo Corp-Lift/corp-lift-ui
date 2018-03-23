@@ -7,11 +7,12 @@
 <script>
 import GlobalStorage from './common/GlobalStorage'
 import MapObj from './GoogleAPI/MapObj'
-
+import ClientSocket from './common/ClientSocket.js'
 export default {
   name: 'App',
   created() {
     GlobalStorage.init();
+    ClientSocket.init();
   }
 }
 </script>
