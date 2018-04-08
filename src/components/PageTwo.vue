@@ -1,10 +1,11 @@
 <template>
   <div id="part2">
+    <div class="overlay" v-if="overlay"></div>
     <div class="topbar">
       <div class="notification">
         <img src="../assets/notifications_white.png">
       </div>
-      <div class="count">1</div>
+      <div class="count" v-if=count>{{count}}</div>
       <div class="profile">
         {{userData.username}}
       </div>
@@ -47,7 +48,9 @@ export default {
       switchView: false,
       RiderPreferenceGender : 'male',
       PillionPreferenceGender : 'male',
-      userData : {}
+      userData : {},
+      overlay: false,
+      count:''
     }
   },
   methods: {
@@ -69,12 +72,21 @@ export default {
   },
   mounted() {
     this.userData = WebStorage.getCollection('USER_SIGNIN')
+  },
+  created() {
   }
 }
 </script>
 <style lang="scss">
   #part2 {
     text-align: left;
+    .overlay {
+      height: 100%;
+      width: 100%;
+      position: absolute;
+      z-index: 1;
+      background-color: rgba(0,0,0,0.6);
+    }
     .topbar {
       width: 100%;
       height: 35px;
@@ -82,7 +94,7 @@ export default {
       justify-content: flex-end;
       background-color: #3A3A3A;
       .notification {
-        padding: 2px 12px;
+        padding: 5px 12px;
         img {
           width:23px;
           height: 23px;

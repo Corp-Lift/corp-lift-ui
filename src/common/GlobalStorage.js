@@ -15,6 +15,7 @@ export default {
         this.GlobalObject[itemName] = JSON.stringify(value);
     },
     init() {
+        let self = this;
         this.mapObj = {
             directionsService : new google.maps.DirectionsService,
             directionsDisplay : new google.maps.DirectionsRenderer,
@@ -28,17 +29,30 @@ export default {
             }
         }
         if (navigator.geolocation) {
-            Service.getCurrentPosition()
-            .then(position => {
-                console.log('SUCCESS')
-                this.mapObj.position = {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                let pos = {
                     lat: position.coords.latitude,
                     lng: position.coords.longitude
                 };
-            })
-            .catch(error => {
-                console.log(error, 'API error')
-            })
+                console.log('SUCCESS')
+                self.mapObj.position = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                };
+            }, function(error) {
+                console.log(error,'geo loc err');
+            });
+            // Service.getCurrentPosition()
+            // .then(position => {
+            //     console.log('SUCCESS')
+            //     this.mapObj.position = {
+            //         lat: position.coords.latitude,
+            //         lng: position.coords.longitude
+            //     };
+            // })
+            // .catch(error => {
+            //     console.log(error, 'API error')
+            // })
         } else {
             console.log('Sorry. geolocation not supported');
         }

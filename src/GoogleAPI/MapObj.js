@@ -82,7 +82,13 @@ export default {
                         userData : riders[i]
                     });
                     google.maps.event.addListener(marker, 'click', function() {
-                        Service.sendRequest(this.userData, this.placeId);
+                        Service.sendRequest(this.userData, this.placeId)
+                        .then(function(res) {
+                            alert(res);
+                        })
+                        .catch(function() {
+                            alert(err);
+                        });
                     });
                 }
             })

@@ -70,8 +70,17 @@ export default {
         return Promise.all(promises);
     },
     sendRequest(data, place) {
-        console.log('send req', data);
-        ClientSocket.sendRequestToRider(data);
+        return new Promise(function(resolve, reject) {
+            ClientSocket.sendRequestToRider(data)
+            .then(function(res) {
+                console.log('Rider flow has to be handled', res);
+                resolve('Request sent. Waiting for him to accept the ride');
+            })
+            .catch(function(err) {
+                console.log('err', err);
+                reject('Please try again');
+            });
+        });
     },
     getAvailableRiders() {
         return ResponseData.riderData;
