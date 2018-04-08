@@ -79,10 +79,15 @@ export default {
                         icon: destinationIcon,
                         placeId :results[i][0].place_id,
                         data : results[i][0].formatted_address,
-                        userData : riders[i]
+                        selectedRiderData : riders[i]
                     });
                     google.maps.event.addListener(marker, 'click', function() {
-                        Service.sendRequest(this.userData, this.placeId)
+                        let data = {
+                            requestorData : Service.userSignIn(),
+                            riderData : this.selectedRiderData
+                        }
+                        data.requestorData.currentPosition = GlobalStorage.mapObj.position;
+                        Service.sendRequest(data, this.placeId)
                         .then(function(res) {
                             alert(res);
                         })

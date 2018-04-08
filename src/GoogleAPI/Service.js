@@ -6,7 +6,6 @@ export default {
         console.log('Sign Up API call', data)
     },
     userSignIn(data) {
-        console.log('Sign In API call', data);
         return ResponseData.userSignInData;
     },
     getCurrentPosition() {
@@ -73,7 +72,6 @@ export default {
         return new Promise(function(resolve, reject) {
             ClientSocket.sendRequestToRider(data)
             .then(function(res) {
-                console.log('Rider flow has to be handled', res);
                 resolve('Request sent. Waiting for him to accept the ride');
             })
             .catch(function(err) {

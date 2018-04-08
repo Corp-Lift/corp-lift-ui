@@ -28,7 +28,18 @@ export default {
     searchRiders() {
       GlobalStorage.setCollection('AVAILABLE_RIDERS', Service.getAvailableRiders())
       MapObj.openMap('pillion', this.destination);
+    },
+    rideAccepted(data) {
+      if(data.detail === 'ACCEPT') {
+        alert('Congrats! You got a rider.');
+      } else {
+        alert('Sorry! Please select another rider.');
+      }
+      window.removeEventListener('rideAccepted', this.rideAccepted);
     }
+  },
+  created() {
+    window.addEventListener('rideAccepted', this.rideAccepted);
   }
 }
 </script>

@@ -1,6 +1,5 @@
 <template>
   <div id="part2">
-    <div class="overlay" v-if="overlay"></div>
     <div class="topbar">
       <div class="notification">
         <img src="../assets/notifications_white.png">
@@ -49,7 +48,6 @@ export default {
       RiderPreferenceGender : 'male',
       PillionPreferenceGender : 'male',
       userData : {},
-      overlay: false,
       count:''
     }
   },
@@ -80,13 +78,6 @@ export default {
 <style lang="scss">
   #part2 {
     text-align: left;
-    .overlay {
-      height: 100%;
-      width: 100%;
-      position: absolute;
-      z-index: 1;
-      background-color: rgba(0,0,0,0.6);
-    }
     .topbar {
       width: 100%;
       height: 35px;
@@ -164,6 +155,7 @@ export default {
       width: 100%;
       height: 300px;
       margin-top: 15px;
+      z-index: 2;
     }
     .bgColor {
       background-color: white;
